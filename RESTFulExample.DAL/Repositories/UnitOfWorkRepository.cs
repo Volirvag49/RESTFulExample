@@ -11,6 +11,7 @@ namespace RESTFulExample.DAL.Repositories
         private IRepository<Employee> employeeRepository;
         private IRepository<Basket> basketRepository;
 
+
         public IRepository<Air> Airs
         {
             get
@@ -21,7 +22,6 @@ namespace RESTFulExample.DAL.Repositories
                 }
                 return airRepository;
             }
-
         }
 
         public IRepository<Train> Trains
@@ -34,7 +34,6 @@ namespace RESTFulExample.DAL.Repositories
                 }
                 return trainRepository;
             }
-
         }
 
         public IRepository<Hotel> Hotels
@@ -47,7 +46,6 @@ namespace RESTFulExample.DAL.Repositories
                 }
                 return hotelRepository;
             }
-
         }
 
         public IRepository<Employee> Employees
@@ -60,7 +58,6 @@ namespace RESTFulExample.DAL.Repositories
                 }
                 return employeeRepository;
             }
-
         }
 
         public IRepository<Basket> Baskets
@@ -73,7 +70,6 @@ namespace RESTFulExample.DAL.Repositories
                 }
                 return basketRepository;
             }
-
         }
     }
 }

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTFulExample.API", "RESTFulExample.API\RESTFulExample.API.csproj", "{4A006491-A14C-47A4-B91F-D5CE6C9DC3CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTFulExample.API", "RESTFulExample.API\RESTFulExample.API.csproj", "{4A006491-A14C-47A4-B91F-D5CE6C9DC3CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTFulExample.DAL", "RESTFulExample.DAL\RESTFulExample.DAL.csproj", "{63E8E8CE-0F50-415C-B198-BAC9B80FBCCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTFulExample.DAL", "RESTFulExample.DAL\RESTFulExample.DAL.csproj", "{63E8E8CE-0F50-415C-B198-BAC9B80FBCCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTFulExample.BLL", "RESTFulExample.BLL\RESTFulExample.BLL.csproj", "{F875F400-277E-4E9D-8BFD-99E2C4348791}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTFulExample.BLL", "RESTFulExample.BLL\RESTFulExample.BLL.csproj", "{F875F400-277E-4E9D-8BFD-99E2C4348791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTFulExample.TESTS", "RESTFulExample.TESTS\RESTFulExample.TESTS.csproj", "{8E9798D1-9764-465A-A9ED-30D3454C2390}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTFulExample.TESTS", "RESTFulExample.TESTS\RESTFulExample.TESTS.csproj", "{8E9798D1-9764-465A-A9ED-30D3454C2390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

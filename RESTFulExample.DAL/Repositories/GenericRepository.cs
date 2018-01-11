@@ -58,24 +58,27 @@ namespace RESTFulExample.DAL.Repositories
             return await dbSet.FirstOrDefaultAsync(where);
         }
 
-        public async Task<T> GetByIdAsyn(int? id)
+        public async Task<T> GetByIdAsynс(int? id)
         {
             return await dbSet.FindAsync(id);
         }
 
-        public void Create(T entity)
+        public async Task CreateAsync(T entity)
         {
             dbSet.Add(entity);
+            await dbContext.SaveChangesAsync();
         }
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
             dbContext.Entry(entity).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public async Task DeleteAsync(T entity)
         {
             dbContext.Entry(entity).State = EntityState.Deleted;
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<int> CountAsync(Expression<Func<T, bool>> where = null)

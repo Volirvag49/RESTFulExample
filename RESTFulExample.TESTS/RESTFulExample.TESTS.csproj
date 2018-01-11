@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RESTFulExample.BLL\RESTFulExample.BLL.csproj" />
     <ProjectReference Include="..\RESTFulExample.DAL\RESTFulExample.DAL.csproj" />
   </ItemGroup>
 

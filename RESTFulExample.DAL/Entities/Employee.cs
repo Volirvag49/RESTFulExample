@@ -1,11 +1,17 @@
 ﻿using System;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RESTFulExample.DAL.Entities
 {
     public class Employee :BaseEntity
     {
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
         public string FirstName { get; set; }
+        [Required]
+        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
         public string LastName { get; set; }
     }
 }
