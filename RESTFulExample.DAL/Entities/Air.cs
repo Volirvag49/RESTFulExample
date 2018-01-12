@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RESTFulExample.DAL.Entities
 {
-    public class Air: BaseEntity
+    public class Air: BaseServiceEntity
     {
-        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
-        public string Id { get; set; }
         [Required]
         [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
         public string Provider { get; set; }

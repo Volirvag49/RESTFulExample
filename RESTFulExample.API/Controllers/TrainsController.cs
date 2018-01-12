@@ -8,18 +8,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
-    public class EmployeesController : Controller
+    public class TrainsController : Controller
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly ITrainService _trainService;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IEmployeeService employeeService, IMapper mapper)
+        public TrainsController(ITrainService trainService, IMapper mapper)
         {
-            this._employeeService = employeeService;
+            this._trainService = trainService;
             this._mapper = mapper;
         }
 
@@ -27,31 +28,31 @@ namespace RESTFulExample.API.Controllers
         [HttpGet]
         public async Task<IEnumerable> Get()
         {
-            var employeesDTO = await _employeeService.GetAllAsync();
-            var employeesVM = Mapper.Map<IEnumerable<EmployeeDTO>, IEnumerable<EmployeeVM>>(employeesDTO);
-            return employeesVM;
+            var trainsDTO = await _trainService.GetAllAsync();
+            var trainsVM = Mapper.Map<IEnumerable<TrainDTO>, IEnumerable<TrainVM>>(trainsDTO);
+            return trainsVM;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
-            var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
+            var trainsDTO = await _trainService.GetByIdAsync(id);
+            var trainsVM = Mapper.Map<TrainDTO, TrainVM>(trainsDTO);
 
-            if (employeesVM == null)
+            if (trainsVM == null)
             {
                 return NotFound();
             }
 
-            return new ObjectResult (employeesVM);
+            return new ObjectResult(trainsVM);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]EmployeeVM employeeVM)
+        public async Task<IActionResult> Post([FromBody]TrainVM trainVM)
         {
-            if (employeeVM == null)
+            if (trainVM == null)
             {
                 ModelState.AddModelError("", "Не указаны данные");
                 return BadRequest(ModelState);
@@ -62,9 +63,9 @@ namespace RESTFulExample.API.Controllers
 
             try
             {
-                var employeesDTO = Mapper.Map<EmployeeVM, EmployeeDTO>(employeeVM);
-                await _employeeService.CreateAsync(employeesDTO);
-                return Ok(employeeVM);
+                var trainDTO = Mapper.Map<TrainVM, TrainDTO>(trainVM);
+                await _trainService.CreateAsync(trainDTO);
+                return Ok(trainVM);
             }
             catch (BusinessLogicException ex)
             {
@@ -76,9 +77,9 @@ namespace RESTFulExample.API.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]EmployeeVM employeeVM)
+        public async Task<IActionResult> Put([FromBody]TrainVM trainVM)
         {
-            if (employeeVM == null)
+            if (trainVM == null)
             {
                 ModelState.AddModelError("", "Не указаны данные");
                 return BadRequest(ModelState);
@@ -88,9 +89,9 @@ namespace RESTFulExample.API.Controllers
                 return BadRequest(ModelState);
             try
             {
-                var employeesDTO = Mapper.Map<EmployeeVM, EmployeeDTO>(employeeVM);
-                await _employeeService.UpdateAsync(employeesDTO);
-                return Ok(employeeVM);
+                var trainDTO = Mapper.Map<TrainVM, TrainDTO>(trainVM);
+                await _trainService.UpdateAsync(trainDTO);
+                return Ok(trainVM);
             }
             catch (BusinessLogicException ex)
             {
@@ -103,19 +104,19 @@ namespace RESTFulExample.API.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
-            if (employeeDTO == null)
+            var trainDTO = await _trainService.GetByIdAsync(id);
+            if (trainDTO == null)
             {
                 return NotFound();
             }
 
             try
             {
-                var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
-                await _employeeService.DeleteAsync(id);
-                return Ok(employeesVM);
+                var trainVM = Mapper.Map<TrainDTO, TrainVM>(trainDTO);
+                await _trainService.DeleteAsync(id);
+                return Ok(trainVM);
             }
             catch (BusinessLogicException ex)
             {
@@ -126,3 +127,4 @@ namespace RESTFulExample.API.Controllers
         }
     }
 }
+

@@ -5,44 +5,44 @@ namespace RESTFulExample.DAL.Repositories
 {
     public partial class UnitOfWork
     {
-        private IRepository<Air> airRepository;
-        private IRepository<Train> trainRepository;
-        private IRepository<Hotel> hotelRepository;
+        private IServiceRepository<Air> airRepository;
+        private IServiceRepository<Train> trainRepository;
+        private IServiceRepository<Hotel> hotelRepository;
         private IRepository<Employee> employeeRepository;
         private IRepository<Basket> basketRepository;
 
 
-        public IRepository<Air> Airs
+        public IServiceRepository<Air> Airs
         {
             get
             {
                 if (airRepository == null)
                 {
-                    airRepository = new GenericRepository<Air>(dbContext);
+                    airRepository = new GenericServiceRepository<Air>(dbContext);
                 }
                 return airRepository;
             }
         }
 
-        public IRepository<Train> Trains
+        public IServiceRepository<Train> Trains
         {
             get
             {
                 if (trainRepository == null)
                 {
-                    trainRepository = new GenericRepository<Train>(dbContext);
+                    trainRepository = new GenericServiceRepository<Train>(dbContext);
                 }
                 return trainRepository;
             }
         }
 
-        public IRepository<Hotel> Hotels
+        public IServiceRepository<Hotel> Hotels
         {
             get
             {
                 if (hotelRepository == null)
                 {
-                    hotelRepository = new GenericRepository<Hotel>(dbContext);
+                    hotelRepository = new GenericServiceRepository<Hotel>(dbContext);
                 }
                 return hotelRepository;
             }

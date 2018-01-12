@@ -6,10 +6,8 @@ using System.Text;
 
 namespace RESTFulExample.DAL.Entities
 {
-    public class Train : BaseEntity
+    public class Train : BaseServiceEntity
     {
-        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
-        public string Id { get; set; }
         [Required]
         public string Provider { get; set; }
         [Required]

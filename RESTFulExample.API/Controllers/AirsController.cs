@@ -1,25 +1,27 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using RESTFulExample.API.Models;
-using RESTFulExample.BLL.DTO;
-using RESTFulExample.BLL.Infrastructure;
-using RESTFulExample.BLL.Interfaces;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using RESTFulExample.BLL.Interfaces;
+using AutoMapper;
+using RESTFulExample.BLL.DTO;
+using RESTFulExample.API.Models;
+using System.Collections;
+using RESTFulExample.BLL.Infrastructure;
 
 
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
-    public class EmployeesController : Controller
+    public class AirsController : Controller
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IAirService _airService;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IEmployeeService employeeService, IMapper mapper)
+        public AirsController(IAirService airService, IMapper mapper)
         {
-            this._employeeService = employeeService;
+            this._airService = airService;
             this._mapper = mapper;
         }
 
@@ -27,31 +29,31 @@ namespace RESTFulExample.API.Controllers
         [HttpGet]
         public async Task<IEnumerable> Get()
         {
-            var employeesDTO = await _employeeService.GetAllAsync();
-            var employeesVM = Mapper.Map<IEnumerable<EmployeeDTO>, IEnumerable<EmployeeVM>>(employeesDTO);
-            return employeesVM;
+            var airsDTO = await _airService.GetAllAsync();
+            var airsVM = Mapper.Map<IEnumerable<AirDTO>, IEnumerable<AirVM>>(airsDTO);
+            return airsVM;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
-            var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
+            var airDTO = await _airService.GetByIdAsync(id);
+            var airVM = Mapper.Map<AirDTO, AirVM>(airDTO);
 
-            if (employeesVM == null)
+            if (airVM == null)
             {
                 return NotFound();
             }
 
-            return new ObjectResult (employeesVM);
+            return new ObjectResult(airVM);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]EmployeeVM employeeVM)
+        public async Task<IActionResult> Post([FromBody]AirVM airVM)
         {
-            if (employeeVM == null)
+            if (airVM == null)
             {
                 ModelState.AddModelError("", "Не указаны данные");
                 return BadRequest(ModelState);
@@ -62,9 +64,9 @@ namespace RESTFulExample.API.Controllers
 
             try
             {
-                var employeesDTO = Mapper.Map<EmployeeVM, EmployeeDTO>(employeeVM);
-                await _employeeService.CreateAsync(employeesDTO);
-                return Ok(employeeVM);
+                var airDTO = Mapper.Map<AirVM, AirDTO>(airVM);
+                await _airService.CreateAsync(airDTO);
+                return Ok(airVM);
             }
             catch (BusinessLogicException ex)
             {
@@ -76,9 +78,9 @@ namespace RESTFulExample.API.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]EmployeeVM employeeVM)
+        public async Task<IActionResult> Put([FromBody]AirVM airVM)
         {
-            if (employeeVM == null)
+            if (airVM == null)
             {
                 ModelState.AddModelError("", "Не указаны данные");
                 return BadRequest(ModelState);
@@ -88,9 +90,9 @@ namespace RESTFulExample.API.Controllers
                 return BadRequest(ModelState);
             try
             {
-                var employeesDTO = Mapper.Map<EmployeeVM, EmployeeDTO>(employeeVM);
-                await _employeeService.UpdateAsync(employeesDTO);
-                return Ok(employeeVM);
+                var airDTO = Mapper.Map<AirVM, AirDTO>(airVM);
+                await _airService.UpdateAsync(airDTO);
+                return Ok(airVM);
             }
             catch (BusinessLogicException ex)
             {
@@ -103,19 +105,19 @@ namespace RESTFulExample.API.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
-            if (employeeDTO == null)
+            var airDTO = await _airService.GetByIdAsync(id);
+            if (airDTO == null)
             {
                 return NotFound();
             }
 
             try
             {
-                var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
-                await _employeeService.DeleteAsync(id);
-                return Ok(employeesVM);
+                var airVM = Mapper.Map<AirDTO, AirVM>(airDTO);
+                await _airService.DeleteAsync(id);
+                return Ok(airVM);
             }
             catch (BusinessLogicException ex)
             {

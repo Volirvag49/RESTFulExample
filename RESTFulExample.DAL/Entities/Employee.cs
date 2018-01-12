@@ -6,7 +6,6 @@ namespace RESTFulExample.DAL.Entities
 {
     public class Employee :BaseEntity
     {
-        public int Id { get; set; }
         [Required]
         [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
         public string FirstName { get; set; }

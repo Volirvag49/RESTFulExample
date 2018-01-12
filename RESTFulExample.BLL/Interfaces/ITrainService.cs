@@ -1,16 +1,16 @@
 ﻿using RESTFulExample.BLL.DTO;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RESTFulExample.BLL.Interfaces
 {
     public interface ITrainService : IDisposable
     {
-        Task<IEnumerable> GetAllAsync();
+        Task<IEnumerable<TrainDTO>> GetAllAsync();
         Task CreateAsync(TrainDTO trainDTO);
         Task UpdateAsync(TrainDTO trainDTO);
-        Task DeleteAsync(int? id);
-        Task<TrainDTO> GetByIdAsync(int? id);
+        Task DeleteAsync(string id);
+        Task<TrainDTO> GetByIdAsync(string id);
     }
 }

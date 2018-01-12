@@ -4,8 +4,6 @@ using RESTFulExample.BLL.Infrastructure;
 using RESTFulExample.BLL.Interfaces;
 using RESTFulExample.DAL.Entities;
 using RESTFulExample.DAL.Interfaces;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -58,7 +56,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется идентификатор", "");
             }
 
-            var employee = await unitOfWork.Employees.GetByIdAsynс(id);
+            Employee employee = await unitOfWork.Employees.GetByIdAsynс(id);
 
             if (employee == null)
             {
@@ -75,8 +73,8 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется идентификатор", "");
             }
 
-            var employee = await Mapper.Map<Task<Employee>, Task<EmployeeDTO>>(unitOfWork.Employees.GetByIdAsynс(id));
-            return employee;
+            EmployeeDTO employeeDTO = await Mapper.Map<Task<Employee>, Task<EmployeeDTO>>(unitOfWork.Employees.GetByIdAsynс(id));
+            return employeeDTO;
         }   
 
         public void Dispose()

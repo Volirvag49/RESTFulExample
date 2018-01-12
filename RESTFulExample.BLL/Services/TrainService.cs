@@ -4,8 +4,6 @@ using RESTFulExample.BLL.Infrastructure;
 using RESTFulExample.BLL.Interfaces;
 using RESTFulExample.DAL.Entities;
 using RESTFulExample.DAL.Interfaces;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,7 +18,7 @@ namespace RESTFulExample.BLL.Services
             this.unitOfWork = uow;
         }
 
-        public async Task<IEnumerable> GetAllAsync()
+        public async Task<IEnumerable<TrainDTO>> GetAllAsync()
         {
             var trains = await Mapper.Map<Task<IEnumerable<Train>>, Task<IEnumerable<TrainDTO>>>(unitOfWork.Trains.GetAllAsync());
             return trains;
@@ -50,7 +48,7 @@ namespace RESTFulExample.BLL.Services
             await unitOfWork.Trains.UpdateAsync(train);
         }
 
-        public async Task DeleteAsync(int? id)
+        public async Task DeleteAsync(string id)
         {
 
             if (id == null)
@@ -58,25 +56,25 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется идентификатор", "");
             }
 
-            var train = await unitOfWork.Trains.GetByIdAsynс(id);
+            Train train = await unitOfWork.Trains.GetByIdAsynс(id);
 
             if (train == null)
             {
-                throw new BusinessLogicException("Поезд не найден", "");
+                throw new BusinessLogicException("поезд не найден", "");
             }
 
             await unitOfWork.Trains.DeleteAsync(train);
         }
 
-        public async Task<TrainDTO> GetByIdAsync(int? id)
+        public async Task<TrainDTO> GetByIdAsync(string id)
         {
             if (id == null)
             {
                 throw new BusinessLogicException("Требуется идентификатор", "");
             }
 
-            var train = await Mapper.Map<Task<Train>, Task<TrainDTO>>(unitOfWork.Trains.GetByIdAsynс(id));
-            return train;
+            TrainDTO trainDTO = await Mapper.Map<Task<Train>, Task<TrainDTO>>(unitOfWork.Trains.GetByIdAsynс(id));
+            return trainDTO;
         }
 
         public void Dispose()

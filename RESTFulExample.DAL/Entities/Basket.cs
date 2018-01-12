@@ -6,9 +6,6 @@ namespace RESTFulExample.DAL.Entities
     public class Basket : BaseEntity
     {
         [Required]
-        public int Id { get; set; }
-
-        [Required]
         public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
 

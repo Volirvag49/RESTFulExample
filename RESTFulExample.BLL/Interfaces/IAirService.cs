@@ -1,17 +1,17 @@
 ﻿using RESTFulExample.BLL.DTO;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RESTFulExample.BLL.Interfaces
 {
     public interface IAirService : IDisposable
     {
-        Task<IEnumerable> GetAllAsync();
+        Task<IEnumerable<AirDTO>> GetAllAsync();
         Task CreateAsync(AirDTO airDTO);
         Task UpdateAsync(AirDTO airDTO);
-        Task DeleteAsync(int? id);
-        Task<AirDTO> GetByIdAsync(int? id);
+        Task DeleteAsync(string id);
+        Task<AirDTO> GetByIdAsync(string id);
 
     }
 }

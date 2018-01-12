@@ -4,8 +4,6 @@ using RESTFulExample.BLL.Infrastructure;
 using RESTFulExample.BLL.Interfaces;
 using RESTFulExample.DAL.Entities;
 using RESTFulExample.DAL.Interfaces;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,10 +18,10 @@ namespace RESTFulExample.BLL.Services
             this.unitOfWork = uow;
         }
 
-        public async Task<IEnumerable> GetAllAsync()
+        public async Task<IEnumerable<HotelDTO>> GetAllAsync()
         {
-            var employees = await Mapper.Map<Task<IEnumerable<Employee>>, Task<IEnumerable<EmployeeDTO>>>(unitOfWork.Employees.GetAllAsync());
-            return employees;
+            var hotels = await Mapper.Map<Task<IEnumerable<Hotel>>, Task<IEnumerable<HotelDTO>>>(unitOfWork.Hotels.GetAllAsync());
+            return hotels;
         }
 
         public async Task CreateAsync(HotelDTO hotelDTO)
@@ -42,7 +40,7 @@ namespace RESTFulExample.BLL.Services
         {
             if (hotelDTO == null)
             {
-                throw new BusinessLogicException("Требуется клиент", "");
+                throw new BusinessLogicException("Требуется отель", "");
             }
 
             Hotel hotel = Mapper.Map<HotelDTO, Hotel>(hotelDTO);
@@ -50,7 +48,7 @@ namespace RESTFulExample.BLL.Services
             await unitOfWork.Hotels.UpdateAsync(hotel);
         }
 
-        public async Task DeleteAsync(int? id)
+        public async Task DeleteAsync(string id)
         {
 
             if (id == null)
@@ -58,25 +56,25 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется идентификатор", "");
             }
 
-            var hotel = await unitOfWork.Hotels.GetByIdAsynс(id);
+            Hotel hotel = await unitOfWork.Hotels.GetByIdAsynс(id);
 
             if (hotel == null)
             {
-                throw new BusinessLogicException("Поезд не найден", "");
+                throw new BusinessLogicException("Отель не найден", "");
             }
 
             await unitOfWork.Hotels.DeleteAsync(hotel);
         }
 
-        public async Task<HotelDTO> GetByIdAsync(int? id)
+        public async Task<HotelDTO> GetByIdAsync(string id)
         {
             if (id == null)
             {
                 throw new BusinessLogicException("Требуется идентификатор", "");
             }
 
-            var hotel = await Mapper.Map<Task<Hotel>, Task<HotelDTO>>(unitOfWork.Hotels.GetByIdAsynс(id));
-            return hotel;
+            HotelDTO hotelDTO = await Mapper.Map<Task<Hotel>, Task<HotelDTO>>(unitOfWork.Hotels.GetByIdAsynс(id));
+            return hotelDTO;
         }
 
         public void Dispose()

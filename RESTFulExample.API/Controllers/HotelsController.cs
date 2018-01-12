@@ -8,18 +8,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
-    public class EmployeesController : Controller
+    public class HotelsController : Controller
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IHotelService _hotelService;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IEmployeeService employeeService, IMapper mapper)
+        public HotelsController(IHotelService hotelService, IMapper mapper)
         {
-            this._employeeService = employeeService;
+            this._hotelService = hotelService;
             this._mapper = mapper;
         }
 
@@ -27,31 +28,31 @@ namespace RESTFulExample.API.Controllers
         [HttpGet]
         public async Task<IEnumerable> Get()
         {
-            var employeesDTO = await _employeeService.GetAllAsync();
-            var employeesVM = Mapper.Map<IEnumerable<EmployeeDTO>, IEnumerable<EmployeeVM>>(employeesDTO);
-            return employeesVM;
+            var hotelsDTO = await _hotelService.GetAllAsync();
+            var hotelsVM = Mapper.Map<IEnumerable<HotelDTO>, IEnumerable<HotelVM>>(hotelsDTO);
+            return hotelsVM;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
-            var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
+            var hotelsDTO = await _hotelService.GetByIdAsync(id);
+            var hotelsVM = Mapper.Map<HotelDTO, HotelVM>(hotelsDTO);
 
-            if (employeesVM == null)
+            if (hotelsVM == null)
             {
                 return NotFound();
             }
 
-            return new ObjectResult (employeesVM);
+            return new ObjectResult(hotelsVM);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]EmployeeVM employeeVM)
+        public async Task<IActionResult> Post([FromBody]HotelVM hotelVM)
         {
-            if (employeeVM == null)
+            if (hotelVM == null)
             {
                 ModelState.AddModelError("", "Не указаны данные");
                 return BadRequest(ModelState);
@@ -62,9 +63,9 @@ namespace RESTFulExample.API.Controllers
 
             try
             {
-                var employeesDTO = Mapper.Map<EmployeeVM, EmployeeDTO>(employeeVM);
-                await _employeeService.CreateAsync(employeesDTO);
-                return Ok(employeeVM);
+                var hotelDTO = Mapper.Map<HotelVM, HotelDTO>(hotelVM);
+                await _hotelService.CreateAsync(hotelDTO);
+                return Ok(hotelVM);
             }
             catch (BusinessLogicException ex)
             {
@@ -76,9 +77,9 @@ namespace RESTFulExample.API.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]EmployeeVM employeeVM)
+        public async Task<IActionResult> Put([FromBody]HotelVM hotelVM)
         {
-            if (employeeVM == null)
+            if (hotelVM == null)
             {
                 ModelState.AddModelError("", "Не указаны данные");
                 return BadRequest(ModelState);
@@ -88,9 +89,9 @@ namespace RESTFulExample.API.Controllers
                 return BadRequest(ModelState);
             try
             {
-                var employeesDTO = Mapper.Map<EmployeeVM, EmployeeDTO>(employeeVM);
-                await _employeeService.UpdateAsync(employeesDTO);
-                return Ok(employeeVM);
+                var hotelDTO = Mapper.Map<HotelVM, HotelDTO>(hotelVM);
+                await _hotelService.UpdateAsync(hotelDTO);
+                return Ok(hotelVM);
             }
             catch (BusinessLogicException ex)
             {
@@ -103,19 +104,19 @@ namespace RESTFulExample.API.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
-            if (employeeDTO == null)
+            var hotelDTO = await _hotelService.GetByIdAsync(id);
+            if (hotelDTO == null)
             {
                 return NotFound();
             }
 
             try
             {
-                var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
-                await _employeeService.DeleteAsync(id);
-                return Ok(employeesVM);
+                var hotelVM = Mapper.Map<HotelDTO, HotelVM>(hotelDTO);
+                await _hotelService.DeleteAsync(id);
+                return Ok(hotelVM);
             }
             catch (BusinessLogicException ex)
             {
