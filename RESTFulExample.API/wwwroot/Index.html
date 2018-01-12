@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Список пользователей</title>
+    <link href="lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="lib/jquery/dist/jquery.js"></script>
+</head>
+<body>
+    <h2>Список пользователей</h2>
+    <div id="errors" class="alert alert-danger" style="display:none;"></div>
+    <form name="itemForm">
+        <input type="hidden" name="id" value="0" />
+        <div class="form-group">
+            <label for="firstName">Имя:</label>
+            <input class="form-control" name="firstName" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Фамилия:</label>
+            <input class="form-control" name="lastName" />
+        </div>
+        <div class="panel-body">
+            <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+            <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
+            <a id="update" class="btn btn-sm btn-primary">Обновить</a>
+        </div>
+    </form>
+    <table class="table table-condensed table-striped table-bordered">
+        <thead><tr><th>Id</th><th>Имя</th><th>Фамилия</th><th></th></tr></thead>
+        <tbody id="replaceTBody"></tbody>
+    </table>
+
+    <script>
+        // Получение всех элементов
+        function UpdateItems() {
+            $.ajax({
+                url: '/api/Employees',
+                type: 'GET',
+                contentType: "application/json",
+                success: function (items) {
+                    updateTable(items);
+                }
+            });
+        }
+
+        // заполнение таблицы строками
+        function updateTable(items) {
+            var tableHTML = '<tbody id="replaceTBody">';
+            $.each(items, function (i, item) {
+                tableHTML += "<tr data-rowid='" + item.id + "'><td>" + item.id + "</td>" +
+                    "<td>" + item.firstName + "</td> <td>" + item.lastName + "</td>" +
+                    "<td><a class='editLink' data-id='" + item.id + "'>Изменить</a> | " +
+                    "<a class='removeLink' data-id='" + item.id + "'>Удалить</a></td></tr>";
+            });
+            tableHTML += '</tbody>';
+            $('#replaceTBody').replaceWith(tableHTML);
+        };
+
+        function errorsPrint(jxqr, error, status) {
+            // парсинг json-объекта
+            console.log(jxqr);
+            if (jxqr.responseText === "") {
+                $('#errors').append("<h3>" + jxqr.statusText + "</h3>");
+            }
+            else {
+                var response = JSON.parse(jxqr.responseText);
+                // добавляем общие ошибки модели
+                if (response['']) {
+
+                    $.each(response[''], function (index, item) {
+                        $('#errors').append("<p>" + item + "</p>");
+                    });
+                }
+                // добавляем ошибки свойства 1
+                if (response['FirstName']) {
+
+                    $.each(response['FirstName'], function (index, item) {
+                        $('#errors').append("<p>" + item + "</p>");
+                    });
+                }
+                // добавляем ошибки свойства 2
+                if (response['LastName']) {
+                    $.each(response['LastName'], function (index, item) {
+                        $('#errors').append("<p>" + item + "</p>");
+                    });
+                }
+            }
+
+            $('#errors').show();
+        }
+        // Получение одного элемента
+        function GetItem(id) {
+            $.ajax({
+                url: '/api/Employees/' + id,
+                type: 'GET',
+                contentType: "application/json",
+                success: function (item) {
+                    var form = document.forms["itemForm"];
+                    form.elements["id"].value = item.id;
+                    form.elements["firstName"].value = item.firstName;
+                    form.elements["lastName"].value = item.lastName;
+                }
+            });
+        }
+        // Добавление элемента
+        function CreateItem(firstName, lastName) {
+            $.ajax({
+                url: "api/Employees",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName
+                }),
+                success: function (item) {
+                    reset();
+                    UpdateItems();
+                },
+                error: function (jxqr, error, status) {
+                    errorsPrint(jxqr, error, status);
+                }
+            })
+        }
+        // Изменение элемента
+        function EditItem(id, firstName, lastName) {
+            $.ajax({
+                url: "api/Employees",
+                contentType: "application/json",
+                method: "PUT",
+                data: JSON.stringify({
+                    id: id,
+                    firstName: firstName,
+                    lastName: lastName
+                }),
+                success: function (item) {
+                    reset();
+                    UpdateItems();
+                },
+                error: function (jxqr, error, status) {
+                    errorsPrint(jxqr, error, status);
+                }
+            })
+        }
+
+        // Удаление элемента
+        function DeleteItem(id) {
+            $.ajax({
+                url: "api/Employees/" + id,
+                contentType: "application/json",
+                method: "DELETE",
+                success: function (item) {
+                    UpdateItems();
+                },
+                error: function (jxqr, error, status) {
+                    errorsPrint(jxqr, error, status);
+                }
+            })
+        }
+
+        // сброс формы
+        function reset() {
+            var form = document.forms["itemForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+
+        // создание строки для таблицы
+        var row = function (item) {
+            return "<tr data-rowid='" + item.id + "'><td>" + item.id + "</td>" +
+                "<td>" + item.firstName+ "</td> <td>" + item.lastName + "</td>" +
+                "<td><a class='editLink' data-id='" + item.id + "'>Изменить</a> | " +
+                "<a class='removeLink' data-id='" + item.id + "'>Удалить</a></td></tr>";
+        }
+        // сброс значений формы
+        $("#reset").click(function (e) {
+            e.preventDefault();
+            reset();
+        })
+
+        // отправка формы
+        $("form").submit(function (e) {
+            e.preventDefault();
+            var id = this.elements["id"].value;
+            var firstName = this.elements["firstName"].value;
+            var lastName = this.elements["lastName"].value;
+            if (id == 0)
+                CreateItem(firstName, lastName);
+            else
+                EditItem(id, firstName, lastName);
+        });
+
+        // обновление данных
+        $("#update").click(function (e) {
+            e.preventDefault();
+            reset();
+            UpdateItems();
+        })
+        // нажимаем на ссылку Изменить
+        $("body").on("click", ".editLink", function () {
+            var id = $(this).data("id");
+            GetItem(id);
+        })
+        // нажимаем на ссылку Удалить
+        $("body").on("click", ".removeLink", function () {
+            var id = $(this).data("id");
+            DeleteItem(id);
+        })
+
+        // Обновление элементов
+        UpdateItems();
+    </script>
+</body>
+
+</html>

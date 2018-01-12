@@ -10,6 +10,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RESTFulExample.DAL.EF;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using RESTFulExample.BLL.Interfaces;
+using RESTFulExample.BLL.Services;
+using RESTFulExample.DAL.Interfaces;
+using RESTFulExample.DAL.Repositories;
 
 namespace RESTFulExample.API
 {
@@ -29,6 +34,14 @@ namespace RESTFulExample.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+
+            services.AddAutoMapper();
+
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddTransient<IEmployeeService, EmployeeService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +52,8 @@ namespace RESTFulExample.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

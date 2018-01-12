@@ -20,7 +20,7 @@ namespace RESTFulExample.BLL.Services
             this.unitOfWork = uow;
         }
 
-        public async Task<IEnumerable> GetAllAsync()
+        public async Task<IEnumerable<EmployeeDTO>> GetAllAsync()
         {
             var employees = await Mapper.Map<Task<IEnumerable<Employee>>, Task<IEnumerable<EmployeeDTO>>>(unitOfWork.Employees.GetAllAsync());
             return employees;
