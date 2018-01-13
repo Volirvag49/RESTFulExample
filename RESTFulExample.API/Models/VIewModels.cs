@@ -91,4 +91,11 @@ namespace RESTFulExample.API.Models
         public string HotelId { get; set; }
     }
 
+    public class ServiceVM
+    {
+        public int? EmployeeId { get; set; }
+
+        public IList<string> serviceIds { get; set; }
+    }
+
 }

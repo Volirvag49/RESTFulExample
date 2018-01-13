@@ -28,7 +28,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            var airIsExist = await unitOfWork.Airs.IsExistAsync(where: q => q.Id == airId || q.TravellerId == null);
+            var airIsExist = await unitOfWork.Airs.IsExistAsync(where: q => q.Id == airId && q.TravellerId == null);
 
             if (!airIsExist)
             {
@@ -44,7 +44,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            var trainIsExist = await unitOfWork.Trains.IsExistAsync(where: q => q.Id == trainId || q.TravellerId == null);
+            var trainIsExist = await unitOfWork.Trains.IsExistAsync(where: q => q.Id == trainId && q.TravellerId == null);
 
             if (!trainIsExist)
             {
@@ -59,7 +59,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            var hotelIsExist = await unitOfWork.Hotels.IsExistAsync(where: q => q.Id == hotelId || q.TravellerId == null);
+            var hotelIsExist = await unitOfWork.Hotels.IsExistAsync(where: q => q.Id == hotelId && q.TravellerId == null);
 
             if (!hotelIsExist)
             {

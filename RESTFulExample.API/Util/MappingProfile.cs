@@ -28,6 +28,9 @@ namespace RESTFulExample.API.Util
             CreateMap<HotelDTO, Hotel>();
             CreateMap<HotelVM, HotelDTO>();
             CreateMap<HotelDTO, HotelVM>();
+
+            CreateMap<ServiceVM, ServiceDTO>();
+            CreateMap<ServiceDTO, ServiceVM>();
         }
     }
 }

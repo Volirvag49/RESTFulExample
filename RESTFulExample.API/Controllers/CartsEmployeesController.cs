@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
-    public class CartController : Controller
+    public class CartsEmployeesController : Controller
     {
         private readonly ICartService _cartService;
         private readonly IMapper _mapper;
 
-        public CartController(ICartService cartService, IMapper mapper)
+        public CartsEmployeesController(ICartService cartService, IMapper mapper)
         {
             this._cartService = cartService;
             this._mapper = mapper;
@@ -27,7 +27,7 @@ namespace RESTFulExample.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var cartsDTO = await _cartService.FindByIdAsync(id);
+            var cartsDTO = await _cartService.FindByIdEmpAsync(id);
             var cartsVM = Mapper.Map<IEnumerable<CartDTO>, IEnumerable<CartVM>>(cartsDTO);
 
             if (cartsVM == null)
@@ -36,19 +36,6 @@ namespace RESTFulExample.API.Controllers
             }
 
             return new ObjectResult(cartsVM);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] int first, int sec, [FromBody] params int[] some)
-        {
-            //if (employeeId == null || airVMs == null)
-            //{
-            //    ModelState.AddModelError("", "Не указаны данные");
-            //    return BadRequest(ModelState);
-            //}
-            var result = new { first, sec,
-                some};
-            return Ok(some);
         }
     }
 }

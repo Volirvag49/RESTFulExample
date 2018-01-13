@@ -8,10 +8,10 @@ namespace RESTFulExample.BLL.Interfaces
 {
     public interface ICartService : IDisposable
     {
-        Task<IEnumerable<CartDTO>> FindByIdAsync(int? employeeId);
-        Task AddAirAsync(int? employeeId, string airId);
-        Task AddTrainAsync(int? employeeId, string trainId);
-        Task AddHotelAsync(int? employeeId, string hotelId);
+        Task<IEnumerable<CartDTO>> FindByIdEmpAsync(int? employeeId);
+        Task AddAirAsync(ServiceDTO services);
+        Task AddTrainAsync(ServiceDTO services);
+        Task AddHotelAsync(ServiceDTO services);
         Task DeleteAsync(int? CardId);
     }
 }
