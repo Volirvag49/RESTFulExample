@@ -11,7 +11,7 @@ namespace RESTFulExample.DAL.EF
         public DbSet<Train> Trains { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Cart> Baskets { get; set; }
 
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
                 : base(options)

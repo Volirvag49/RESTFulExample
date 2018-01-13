@@ -37,7 +37,6 @@ namespace RESTFulExample.API.Models
 
         //Employee
         public int? TravellerId { get; set; }
-        public EmployeeVM Traveller { get; set; }
     }
 
     public class TrainVM
@@ -59,7 +58,6 @@ namespace RESTFulExample.API.Models
 
         //Employee
         public int? TravellerId { get; set; }
-        public EmployeeVM Traveller { get; set; }
     }
 
     public class HotelVM
@@ -78,7 +76,19 @@ namespace RESTFulExample.API.Models
 
         //Employee
         public int? TravellerId { get; set; }
-        public EmployeeVM Traveller { get; set; }
+    }
+
+    public class CartVM
+    {
+        public string Id { get; set; }
+        [Required]
+        public int? EmployeeId { get; set; }
+        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
+        public string AirId { get; set; }
+        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
+        public string TrainId { get; set; }
+        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
+        public string HotelId { get; set; }
     }
 
 }

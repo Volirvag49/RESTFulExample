@@ -8,6 +8,7 @@ namespace RESTFulExample.BLL.Interfaces
     public interface ITrainService : IDisposable
     {
         Task<IEnumerable<TrainDTO>> GetAllAsync();
+        Task<IEnumerable<TrainDTO>> GetAvailableAsync();
         Task CreateAsync(TrainDTO trainDTO);
         Task UpdateAsync(TrainDTO trainDTO);
         Task DeleteAsync(string id);

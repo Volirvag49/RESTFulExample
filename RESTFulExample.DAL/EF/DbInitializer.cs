@@ -49,38 +49,32 @@ namespace RESTFulExample.DAL.EF
         {
             db.Airs.Add(new Air
             {
-                Id = "Air111",
                 ArrivalAirport = "ArrivalAirport1",
                 ArrivalDate = DateTime.Today,
                 DepartureAirport = "DepartureAirport1",
                 DepartureDate = DateTime.Today,
                 Provider = "Provider1",
                 TravellerId = 1
-
             });
 
             db.Airs.Add(new Air
             {
-                Id = "Air222",
                 ArrivalAirport = "ArrivalAirport2",
                 ArrivalDate = DateTime.Today,
                 DepartureAirport = "DepartureAirport2",
                 DepartureDate = DateTime.Today,
                 Provider = "Provider1",
                 TravellerId = 2
-
             });
 
             db.Airs.Add(new Air
             {
-                Id = "Air333",
                 ArrivalAirport = "ArrivalAirport3",
                 ArrivalDate = DateTime.Today,
                 DepartureAirport = "DepartureAirport3",
                 DepartureDate = DateTime.Today,
                 Provider = "Provider1",
                 TravellerId = 3
-
             });
 
             db.SaveChanges();
@@ -89,31 +83,25 @@ namespace RESTFulExample.DAL.EF
         {
             db.Trains.Add(new Train
             {
-                Id = "Train1",
                 ArrivalStation = "ArrivalStation1",
                 ArrivalDate = DateTime.Today,
                 DepartureStation = "DepartureStation1",
                 DepartureDate = DateTime.Today,
                 Provider = "Provider1",
                 TravellerId = 1
-
             });
 
             db.Trains.Add(new Train
             {
-                Id = "Train2",
                 ArrivalStation = "ArrivalStation2",
                 ArrivalDate = DateTime.Today,
                 DepartureStation = "DepartureStation2",
                 DepartureDate = DateTime.Today,
                 Provider = "Provider1",
                 TravellerId = 2
-
             });
-
             db.Trains.Add(new Train
             {
-                Id = "Train3",
                 ArrivalStation = "ArrivalStation3",
                 ArrivalDate = DateTime.Today,
                 DepartureStation = "DepartureStation3",
@@ -122,41 +110,39 @@ namespace RESTFulExample.DAL.EF
                 TravellerId = 3
 
             });
+
+            db.SaveChanges();
         }
         private static void AddHotels(ApplicationDBContext db)
         {
             db.Hotels.Add(new Hotel
             {
-                Id = "Hotel1",
                 Checkin = DateTime.Today,
                 Checkout = DateTime.Today,
                 Name = "Hotel 1",
                 Provider = "1",
                 TravellerId = 1
-
             });
 
             db.Hotels.Add(new Hotel
             {
-                Id = "Hotel2",
                 Checkin = DateTime.Today,
                 Checkout = DateTime.Today,
                 Name = "Hotel 2",
                 Provider = "1",
                 TravellerId = 2
-
             });
 
             db.Hotels.Add(new Hotel
             {
-                Id = "Hotel3",
                 Checkin = DateTime.Today,
                 Checkout = DateTime.Today,
                 Name = "Hotel 3",
                 Provider = "1",
                 TravellerId = 3
-
             });
+
+            db.SaveChanges();
         }
 
     }

@@ -4,7 +4,9 @@ using RESTFulExample.BLL.Infrastructure;
 using RESTFulExample.BLL.Interfaces;
 using RESTFulExample.DAL.Entities;
 using RESTFulExample.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RESTFulExample.BLL.Services
@@ -24,28 +26,43 @@ namespace RESTFulExample.BLL.Services
             return hotels;
         }
 
+        public async Task<IEnumerable<HotelDTO>> GetAvailableAsync()
+        {
+            Expression<Func<Hotel, bool>> searchQuery = q => q.TravellerId == null;
+            var hotels = await Mapper.Map<Task<IEnumerable<Hotel>>, Task<IEnumerable<HotelDTO>>>(unitOfWork.Hotels.GetAsync(filter: searchQuery));
+            return hotels;
+        }
+
         public async Task CreateAsync(HotelDTO hotelDTO)
         {
             if (hotelDTO == null)
             {
-                throw new BusinessLogicException("Требуется отель", "");
+                throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            Hotel hotel = Mapper.Map<HotelDTO, Hotel>(hotelDTO);
+            Hotel hotel = new Hotel() {
+                Checkin = hotelDTO.Checkin,
+                Checkout = hotelDTO.Checkout,
+                Name = hotelDTO.Name,
+                Provider = hotelDTO.Provider,
+                TravellerId = hotelDTO.TravellerId
+            };
 
-            await unitOfWork.Hotels.CreateAsync(hotel);
+            unitOfWork.Hotels.Create(hotel);
+            await unitOfWork.CommitAsync();
         }
 
         public async Task UpdateAsync(HotelDTO hotelDTO)
         {
             if (hotelDTO == null)
             {
-                throw new BusinessLogicException("Требуется отель", "");
+                throw new BusinessLogicException("Требуется услуга", "");
             }
 
             Hotel hotel = Mapper.Map<HotelDTO, Hotel>(hotelDTO);
 
-            await unitOfWork.Hotels.UpdateAsync(hotel);
+            unitOfWork.Hotels.Update(hotel);
+            await unitOfWork.CommitAsync();
         }
 
         public async Task DeleteAsync(string id)
@@ -60,10 +77,11 @@ namespace RESTFulExample.BLL.Services
 
             if (hotel == null)
             {
-                throw new BusinessLogicException("Отель не найден", "");
+                throw new BusinessLogicException("Услуга не найдена", "");
             }
 
-            await unitOfWork.Hotels.DeleteAsync(hotel);
+            unitOfWork.Hotels.Delete(hotel);
+            await unitOfWork.CommitAsync();
         }
 
         public async Task<HotelDTO> GetByIdAsync(string id)

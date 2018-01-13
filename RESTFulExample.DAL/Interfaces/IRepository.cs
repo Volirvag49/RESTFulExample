@@ -15,9 +15,9 @@ namespace RESTFulExample.DAL.Interfaces
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "");
         Task<T> GetByAsync(Expression<Func<T, bool>> where = null);
-        Task CreateAsync(T entity);
-        Task UpdateAsync(T entity);
-        Task DeleteAsync(T entity);
+        void Create(T entity);
+        void Update(T entity);
+        void Delete(T entity);
 
         Task<int> CountAsync(Expression<Func<T, bool>> where = null);
         Task<bool> IsExistAsync(Expression<Func<T, bool>> where = null);

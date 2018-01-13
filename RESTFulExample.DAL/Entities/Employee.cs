@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,5 +13,6 @@ namespace RESTFulExample.DAL.Entities
         [Required]
         [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
         public string LastName { get; set; }
+
     }
 }

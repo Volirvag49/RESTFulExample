@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RESTFulExample.DAL.Entities
 {
-    public class Basket : BaseEntity
+    public class Cart : BaseEntity
     {
         [Required]
         public int? EmployeeId { get; set; }
@@ -21,4 +21,5 @@ namespace RESTFulExample.DAL.Entities
         public string HotelId { get; set; }
         public Hotel Hotel { get; set; }
     }
+
 }

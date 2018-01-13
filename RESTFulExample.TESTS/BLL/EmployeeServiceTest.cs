@@ -80,7 +80,7 @@ namespace RESTFulExample.TEST.DLL
             employee.FirstName = "updatedFName1";
             employee.LastName = "updatedLName2";
 
-            await employeeService.UpdateAsync(employeeDTO);
+            employeeService.UpdateAsync(employeeDTO);
 
             Employee employee2 = db.Employees.Find(2);
             // Assert

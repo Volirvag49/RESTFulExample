@@ -4,7 +4,9 @@ using RESTFulExample.BLL.Infrastructure;
 using RESTFulExample.BLL.Interfaces;
 using RESTFulExample.DAL.Entities;
 using RESTFulExample.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RESTFulExample.BLL.Services
@@ -25,28 +27,44 @@ namespace RESTFulExample.BLL.Services
             return airs;
         }
 
+        public async Task<IEnumerable<AirDTO>> GetAvailableAsync()
+        {
+            Expression<Func<Air, bool>> searchQuery = q => q.TravellerId == null;
+            var airs = await Mapper.Map<Task<IEnumerable<Air>>, Task<IEnumerable<AirDTO>>>(unitOfWork.Airs.GetAsync(filter: searchQuery));
+            return airs;
+        }
+
         public async Task CreateAsync(AirDTO airDTO)
         {
             if (airDTO == null)
             {
-                throw new BusinessLogicException("Требуется перелёт", "");
+                throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            Air air = Mapper.Map<AirDTO, Air>(airDTO);
+            Air air = new Air() {
+                ArrivalAirport = airDTO.ArrivalAirport,
+                ArrivalDate = airDTO.ArrivalDate,
+                DepartureAirport = airDTO.DepartureAirport,
+                DepartureDate = airDTO.DepartureDate,
+                Provider = airDTO.Provider,
+                TravellerId = airDTO.TravellerId
 
-            await unitOfWork.Airs.CreateAsync(air);
+            };
+            unitOfWork.Airs.Create(air);
+            await unitOfWork.CommitAsync();
         }
 
         public async Task UpdateAsync(AirDTO airDTO)
         {
             if (airDTO == null)
             {
-                throw new BusinessLogicException("Требуется перелёт", "");
+                throw new BusinessLogicException("Требуется услуга", "");
             }
 
             Air air = Mapper.Map<AirDTO, Air>(airDTO);
 
-            await unitOfWork.Airs.UpdateAsync(air);
+            unitOfWork.Airs.Update(air);
+            await unitOfWork.CommitAsync();
         }
 
         public async Task DeleteAsync(string id)
@@ -61,10 +79,11 @@ namespace RESTFulExample.BLL.Services
 
             if (air == null)
             {
-                throw new BusinessLogicException("Перелёт не найден", "");
+                throw new BusinessLogicException("Услуга не найдена", "");
             }
 
-            await unitOfWork.Airs.DeleteAsync(air);
+            unitOfWork.Airs.Delete(air);
+            await unitOfWork.CommitAsync();
         }
 
         public async Task<AirDTO> GetByIdAsync(string id)

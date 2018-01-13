@@ -120,7 +120,7 @@ namespace RESTFulExample.TEST
 
             });
 
-            context.Baskets.Add(new Basket
+            context.Baskets.Add(new Cart
             {
                  EmployeeId = 3,
                  AirId = "Air333",

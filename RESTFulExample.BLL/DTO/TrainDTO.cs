@@ -14,11 +14,6 @@ namespace RESTFulExample.BLL.DTO
 
         //Employee
         public int? TravellerId { get; set; }
-        public Employee Traveller { get; set; }
 
-        public static implicit operator TrainDTO(EmployeeDTO v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

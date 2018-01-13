@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace RESTFulExample.BLL.DTO
 {
@@ -8,5 +8,6 @@ namespace RESTFulExample.BLL.DTO
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
     }
 }

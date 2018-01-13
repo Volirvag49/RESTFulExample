@@ -31,9 +31,13 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется клиент", "");
             }
 
-            Employee employee = Mapper.Map<EmployeeDTO, Employee>(employeeDTO);
+            Employee employee = new Employee() {
+                FirstName = employeeDTO.FirstName,
+                LastName = employeeDTO.LastName
+            };
 
-            await unitOfWork.Employees.CreateAsync(employee);           
+             unitOfWork.Employees.Create(employee);
+             await unitOfWork.CommitAsync();
         }     
 
         public async Task UpdateAsync(EmployeeDTO employeeDTO)
@@ -45,7 +49,8 @@ namespace RESTFulExample.BLL.Services
 
             Employee employee = Mapper.Map<EmployeeDTO, Employee>(employeeDTO);
 
-            await unitOfWork.Employees.UpdateAsync(employee);
+            unitOfWork.Employees.Update(employee);
+            await unitOfWork.CommitAsync();
         }
       
         public async Task DeleteAsync(int? id)
@@ -63,7 +68,8 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Клиент не найден", "");
             }
 
-            await unitOfWork.Employees.DeleteAsync(employee);
+            unitOfWork.Employees.Delete(employee);
+            await unitOfWork.CommitAsync();
         }
 
         public async Task<EmployeeDTO> GetByIdAsync(int? id)

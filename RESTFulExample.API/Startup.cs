@@ -57,6 +57,7 @@ namespace RESTFulExample.API
             services.AddTransient<IAirService, AirIService>();
             services.AddTransient<ITrainService, TrainService>();
             services.AddTransient<IHotelService, HotelService>();
+            services.AddTransient<ICartService, CartService>();
 
         }
 

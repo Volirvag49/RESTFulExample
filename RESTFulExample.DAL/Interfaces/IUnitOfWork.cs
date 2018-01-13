@@ -10,7 +10,7 @@ namespace RESTFulExample.DAL.Interfaces
         IServiceRepository<Train> Trains { get; }
         IServiceRepository<Hotel> Hotels { get; }
         IRepository<Employee> Employees { get; }
-        IRepository<Basket> Baskets { get; }
+        IRepository<Cart> Carts { get; }
 
         Task CommitAsync();
     }

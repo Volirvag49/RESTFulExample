@@ -14,6 +14,5 @@ namespace RESTFulExample.BLL.DTO
 
         //Employee
         public int? TravellerId { get; set; }
-        public EmployeeDTO Traveller { get; set; }
     }
 }

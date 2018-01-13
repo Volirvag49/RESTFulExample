@@ -8,6 +8,7 @@ namespace RESTFulExample.BLL.Interfaces
     public interface IAirService : IDisposable
     {
         Task<IEnumerable<AirDTO>> GetAllAsync();
+        Task<IEnumerable<AirDTO>> GetAvailableAsync();
         Task CreateAsync(AirDTO airDTO);
         Task UpdateAsync(AirDTO airDTO);
         Task DeleteAsync(string id);
