@@ -33,10 +33,10 @@ namespace RESTFulExample.API.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{train_id}")]
+        public async Task<IActionResult> Get(string train_id)
         {
-            var trainsDTO = await _trainService.GetByIdAsync(id);
+            var trainsDTO = await _trainService.GetByIdAsync(train_id);
             var trainsVM = Mapper.Map<TrainDTO, TrainVM>(trainsDTO);
 
             if (trainsVM == null)
@@ -68,10 +68,9 @@ namespace RESTFulExample.API.Controllers
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
+                return BadRequest(ex.Message);
 
             }
-            return BadRequest();
         }
 
         // PUT api/values/5
@@ -94,18 +93,17 @@ namespace RESTFulExample.API.Controllers
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
+                return BadRequest(ex.Message);
 
             }
-            return BadRequest();
 
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{train_id}")]
+        public async Task<IActionResult> Delete(string train_id)
         {
-            var trainDTO = await _trainService.GetByIdAsync(id);
+            var trainDTO = await _trainService.GetByIdAsync(train_id);
             if (trainDTO == null)
             {
                 return NotFound();
@@ -114,15 +112,14 @@ namespace RESTFulExample.API.Controllers
             try
             {
                 var trainVM = Mapper.Map<TrainDTO, TrainVM>(trainDTO);
-                await _trainService.DeleteAsync(id);
+                await _trainService.DeleteAsync(train_id);
                 return Ok(trainVM);
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
+                return BadRequest(ex.Message);
 
             }
-            return BadRequest();
         }
     }
 }

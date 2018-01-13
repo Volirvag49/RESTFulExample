@@ -24,10 +24,10 @@ namespace RESTFulExample.API.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{employee_Id}")]
+        public async Task<IActionResult> Get(int employee_Id)
         {
-            var cartsDTO = await _cartService.FindByIdEmpAsync(id);
+            var cartsDTO = await _cartService.FindByIdEmpAsync(employee_Id);
             var cartsVM = Mapper.Map<IEnumerable<CartDTO>, IEnumerable<CartVM>>(cartsDTO);
 
             if (cartsVM == null)
@@ -36,6 +36,23 @@ namespace RESTFulExample.API.Controllers
             }
 
             return new ObjectResult(cartsVM);
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{cart_id}")]
+        public async Task<IActionResult> Delete(int cart_id)
+        {
+
+            try
+            {
+                await _cartService.DeleteAsync(cart_id);
+                return Ok(cart_id);
+            }
+            catch (BusinessLogicException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
         }
     }
 }

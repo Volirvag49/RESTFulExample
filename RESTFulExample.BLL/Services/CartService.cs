@@ -95,9 +95,33 @@ namespace RESTFulExample.BLL.Services
         {
             await CheckCart(cartId);
 
-            var cart = await unitOfWork.Carts.GetByIdAsynс(cartId);
+            Cart cart = await unitOfWork.Carts.GetByIdAsynс(cartId);
+
+            if (cart.AirId != null)
+            {
+                Air air = await unitOfWork.Airs.GetByIdAsynс(cart.AirId);
+
+                air.TravellerId = null;
+                unitOfWork.Airs.Update(air);
+            }
+
+            else if (cart.TrainId != null)
+            {
+                Train train = await unitOfWork.Trains.GetByIdAsynс(cart.TrainId);
+
+                train.TravellerId = null;
+                unitOfWork.Trains.Update(train);
+            }
+
+            else
+            {
+                Hotel hotel = await unitOfWork.Hotels.GetByIdAsynс(cart.HotelId);
+                hotel.TravellerId = null;
+                unitOfWork.Hotels.Update(hotel);
+            }
 
             unitOfWork.Carts.Delete(cart);
+
             await unitOfWork.CommitAsync();
         }
 

@@ -35,10 +35,10 @@ namespace RESTFulExample.API.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{air_id}")]
+        public async Task<IActionResult> Get(string air_id)
         {
-            var airDTO = await _airService.GetByIdAsync(id);
+            var airDTO = await _airService.GetByIdAsync(air_id);
             var airVM = Mapper.Map<AirDTO, AirVM>(airDTO);
 
             if (airVM == null)
@@ -70,10 +70,8 @@ namespace RESTFulExample.API.Controllers
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
-
+                return BadRequest(ex.Message);
             }
-            return BadRequest();
         }
 
         // PUT api/values/5
@@ -96,18 +94,16 @@ namespace RESTFulExample.API.Controllers
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
-
+                return BadRequest(ex.Message);
             }
-            return BadRequest();
 
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{air_Id}")]
+        public async Task<IActionResult> Delete(string air_Id)
         {
-            var airDTO = await _airService.GetByIdAsync(id);
+            var airDTO = await _airService.GetByIdAsync(air_Id);
             if (airDTO == null)
             {
                 return NotFound();
@@ -116,15 +112,14 @@ namespace RESTFulExample.API.Controllers
             try
             {
                 var airVM = Mapper.Map<AirDTO, AirVM>(airDTO);
-                await _airService.DeleteAsync(id);
+                await _airService.DeleteAsync(air_Id);
                 return Ok(airVM);
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
-
+                return BadRequest(ex.Message);
             }
-            return BadRequest();
+
         }
     }
 }

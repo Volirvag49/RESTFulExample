@@ -33,10 +33,10 @@ namespace RESTFulExample.API.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{employee_id}")]
+        public async Task<IActionResult> Get(int employee_id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
+            var employeeDTO = await _employeeService.GetByIdAsync(employee_id);
             var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
 
             if (employeesVM == null)
@@ -68,10 +68,8 @@ namespace RESTFulExample.API.Controllers
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
-
+                return BadRequest(ex.Message);
             }
-            return BadRequest();
         }
 
         // PUT api/values/5
@@ -94,18 +92,17 @@ namespace RESTFulExample.API.Controllers
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
+                return BadRequest(ex.Message);
 
             }
-            return BadRequest();
 
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{employee_id}")]
+        public async Task<IActionResult> Delete(int employee_id)
         {
-            var employeeDTO = await _employeeService.GetByIdAsync(id);
+            var employeeDTO = await _employeeService.GetByIdAsync(employee_id);
             if (employeeDTO == null)
             {
                 return NotFound();
@@ -114,15 +111,14 @@ namespace RESTFulExample.API.Controllers
             try
             {
                 var employeesVM = Mapper.Map<EmployeeDTO, EmployeeVM>(employeeDTO);
-                await _employeeService.DeleteAsync(id);
+                await _employeeService.DeleteAsync(employee_id);
                 return Ok(employeesVM);
             }
             catch (BusinessLogicException ex)
             {
-                ModelState.AddModelError(ex.Property, ex.Message);
+                return BadRequest(ex.Message);
 
             }
-            return BadRequest();
         }
     }
 }
