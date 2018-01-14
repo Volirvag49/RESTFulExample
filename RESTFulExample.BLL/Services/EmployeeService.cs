@@ -37,7 +37,16 @@ namespace RESTFulExample.BLL.Services
             };
 
              unitOfWork.Employees.Create(employee);
-             await unitOfWork.CommitAsync();
+
+            await unitOfWork.CommitAsync();
+
+            Cart cart = new Cart()
+            {
+                EmployeeId = employee.Id
+            };
+
+            unitOfWork.Carts.Create(cart);
+            await unitOfWork.CommitAsync();
         }     
 
         public async Task UpdateAsync(EmployeeDTO employeeDTO)

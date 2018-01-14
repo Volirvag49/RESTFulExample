@@ -39,11 +39,17 @@ namespace RESTFulExample.DAL.EF
             {
                 AddCarts(db);
             }
+
+            if (!db.Orders.Any())
+            {
+                AddOrders(db);
+            }
         }
+
 
         private static void AddEmployee(ApplicationDBContext db)
         {
-            db.Employees.Add(new Employee { FirstName = "Fname1", LastName = "Lname1" });
+            db.Employees.Add(new Employee { FirstName = "Fname1", LastName = "Lname1", });
             db.Employees.Add(new Employee { FirstName = "Fname2", LastName = "Lname2" });
             db.Employees.Add(new Employee { FirstName = "Fname3", LastName = "Lname3" });
             db.Employees.Add(new Employee { FirstName = "Fname4", LastName = "Lname4" });
@@ -221,41 +227,45 @@ namespace RESTFulExample.DAL.EF
         {
             db.Carts.Add(new Cart
             {
-                EmployeeId = 1,
-                AirId = "9ffdfb66-d97c-460f-8077-5f954239b0f6"
+                EmployeeId = 1
+
             });
             db.Carts.Add(new Cart
             {
-                EmployeeId = 2,
-                AirId = "8a970bb1-b333-4a0e-ab41-93ea38601591"
+                EmployeeId = 2
+
             });
             db.Carts.Add(new Cart
             {
-                EmployeeId = 3,
-                AirId = "d5d2483f-1aad-404d-b797-088824ae3673"
+                EmployeeId = 3
+
+            });
+            db.Carts.Add(new Cart
+            {
+                EmployeeId = 4
+
             });
 
             db.Carts.Add(new Cart
             {
-                EmployeeId = 1,
-                TrainId = "01179667-eb83-4650-9f72-a09ae4350c98"
-            });
-            db.Carts.Add(new Cart
-            {
-                EmployeeId = 2,
-                TrainId = "3832152b-f8f9-47af-81ba-1983216028fb"
+                EmployeeId = 5
+
             });
 
-            db.Carts.Add(new Cart
-            {
-                EmployeeId = 1,
-                HotelId = "ddf60ebf-ebaa-4266-b4bf-7fd3bcbfd2a1"
-            });
-            db.Carts.Add(new Cart
-            {
-                EmployeeId = 2,
-                HotelId = "72f19357-aaaf-4a62-bcbf-fa9f23c13125"
-            });
+            db.SaveChanges();
+        }
+
+        private static void AddOrders(ApplicationDBContext db)
+        {
+            db.Orders.Add(new Order { CartId = 1, ServiceId = "9ffdfb66-d97c-460f-8077-5f954239b0f6", ServiceTipe = ServiceTipe.Air });
+            db.Orders.Add(new Order { CartId = 2, ServiceId = "8a970bb1-b333-4a0e-ab41-93ea38601591", ServiceTipe = ServiceTipe.Air });
+            db.Orders.Add(new Order { CartId = 3, ServiceId = "d5d2483f-1aad-404d-b797-088824ae3673", ServiceTipe = ServiceTipe.Air });
+
+            db.Orders.Add(new Order { CartId = 1, ServiceId = "01179667-eb83-4650-9f72-a09ae4350c98", ServiceTipe = ServiceTipe.Train }); 
+            db.Orders.Add(new Order { CartId = 2, ServiceId = "3832152b-f8f9-47af-81ba-1983216028fb", ServiceTipe = ServiceTipe.Train });
+
+            db.Orders.Add(new Order { CartId = 1, ServiceId = "ddf60ebf-ebaa-4266-b4bf-7fd3bcbfd2a1", ServiceTipe = ServiceTipe.Hotel });
+            db.Orders.Add(new Order { CartId = 2, ServiceId = "72f19357-aaaf-4a62-bcbf-fa9f23c13125", ServiceTipe = ServiceTipe.Hotel });
 
             db.SaveChanges();
         }

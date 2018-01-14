@@ -10,7 +10,7 @@ namespace RESTFulExample.DAL.Repositories
         private IServiceRepository<Hotel> hotelRepository;
         private IRepository<Employee> employeeRepository;
         private IRepository<Cart> cartRepository;
-
+        private IRepository<Order> orderRepository;
 
         public IServiceRepository<Air> Airs
         {
@@ -69,6 +69,18 @@ namespace RESTFulExample.DAL.Repositories
                     cartRepository = new GenericRepository<Cart>(dbContext);
                 }
                 return cartRepository;
+            }
+        }
+
+        public IRepository<Order> Orders
+        {
+            get
+            {
+                if (orderRepository == null)
+                {
+                    orderRepository = new GenericRepository<Order>(dbContext);
+                }
+                return orderRepository;
             }
         }
     }

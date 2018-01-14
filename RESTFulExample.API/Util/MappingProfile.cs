@@ -31,6 +31,11 @@ namespace RESTFulExample.API.Util
 
             CreateMap<ServiceVM, ServiceDTO>();
             CreateMap<ServiceDTO, ServiceVM>();
+
+            CreateMap<Order, OrderDTO>();
+            CreateMap<OrderDTO, Order>();
+            CreateMap<OrderVM, OrderDTO>();
+            CreateMap<OrderDTO, OrderVM>();
         }
     }
 }

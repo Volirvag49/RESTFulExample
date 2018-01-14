@@ -11,6 +11,7 @@ namespace RESTFulExample.DAL.Interfaces
         IServiceRepository<Hotel> Hotels { get; }
         IRepository<Employee> Employees { get; }
         IRepository<Cart> Carts { get; }
+        IRepository<Order> Orders { get; }
 
         Task CommitAsync();
     }

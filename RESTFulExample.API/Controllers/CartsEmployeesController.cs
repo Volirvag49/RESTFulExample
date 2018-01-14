@@ -27,15 +27,15 @@ namespace RESTFulExample.API.Controllers
         [HttpGet("{employee_Id}")]
         public async Task<IActionResult> Get(int employee_Id)
         {
-            var cartsDTO = await _cartService.FindByIdEmpAsync(employee_Id);
-            var cartsVM = Mapper.Map<IEnumerable<CartDTO>, IEnumerable<CartVM>>(cartsDTO);
+            var orderDTO = await _cartService.FindByIdEmpAsync(employee_Id);
+            var ordersVM = Mapper.Map<IEnumerable<OrderDTO>, IEnumerable<OrderVM>>(orderDTO);
 
-            if (cartsVM == null)
+            if (ordersVM == null)
             {
                 return NotFound();
             }
 
-            return new ObjectResult(cartsVM);
+            return new ObjectResult(ordersVM);
         }
 
         // DELETE api/values/5

@@ -120,12 +120,6 @@ namespace RESTFulExample.TEST
 
             });
 
-            context.Carts.Add(new Cart
-            {
-                 EmployeeId = 3,
-                 AirId = "Air333",
-            });
-
             context.SaveChanges();
         }
     }

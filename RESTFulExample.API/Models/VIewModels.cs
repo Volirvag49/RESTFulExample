@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using static RESTFulExample.BLL.DTO.OrderDTO;
 
 namespace RESTFulExample.API.Models
 {
@@ -98,4 +99,19 @@ namespace RESTFulExample.API.Models
         public IList<string> serviceIds { get; set; }
     }
 
+    public class OrderVM
+    {
+        public string Id { get; set; }
+        public int? CartId { get; set; }
+        public string ServiceId { get; set; }
+        public ServiceTipeVM ServiceTipe { get; set; }
+    }
+
+    public enum ServiceTipeVM : byte
+    {
+        Empty = 0,
+        Air = 1,
+        Train = 2,
+        Hotel = 3
+    }
 }

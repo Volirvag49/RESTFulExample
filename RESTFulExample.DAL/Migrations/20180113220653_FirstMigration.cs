@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RESTFulExample.DAL.Migrations
 {
-    public partial class _1MG : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,25 @@ namespace RESTFulExample.DAL.Migrations
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Carts_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,43 +111,24 @@ namespace RESTFulExample.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Baskets",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AirId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    HotelId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TrainId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    CartId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ServiceTipe = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Baskets", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Baskets_Airs_AirId",
-                        column: x => x.AirId,
-                        principalTable: "Airs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Baskets_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        name: "FK_Orders_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Baskets_Hotels_HotelId",
-                        column: x => x.HotelId,
-                        principalTable: "Hotels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Baskets_Trains_TrainId",
-                        column: x => x.TrainId,
-                        principalTable: "Trains",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -137,29 +137,20 @@ namespace RESTFulExample.DAL.Migrations
                 column: "TravellerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Baskets_AirId",
-                table: "Baskets",
-                column: "AirId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Baskets_EmployeeId",
-                table: "Baskets",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Baskets_HotelId",
-                table: "Baskets",
-                column: "HotelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Baskets_TrainId",
-                table: "Baskets",
-                column: "TrainId");
+                name: "IX_Carts_EmployeeId",
+                table: "Carts",
+                column: "EmployeeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hotels_TravellerId",
                 table: "Hotels",
                 column: "TravellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_CartId",
+                table: "Orders",
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trains_TravellerId",
@@ -170,16 +161,19 @@ namespace RESTFulExample.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Baskets");
-
-            migrationBuilder.DropTable(
                 name: "Airs");
 
             migrationBuilder.DropTable(
                 name: "Hotels");
 
             migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
                 name: "Trains");
+
+            migrationBuilder.DropTable(
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Employees");

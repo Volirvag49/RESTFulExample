@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using RESTFulExample.DAL.EF;
+using RESTFulExample.DAL.Entities;
 using System;
 
 namespace RESTFulExample.DAL.Migrations
@@ -51,39 +52,25 @@ namespace RESTFulExample.DAL.Migrations
                     b.ToTable("Airs");
                 });
 
-            modelBuilder.Entity("RESTFulExample.DAL.Entities.Basket", b =>
+            modelBuilder.Entity("RESTFulExample.DAL.Entities.Cart", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AirId")
-                        .HasMaxLength(50);
 
                     b.Property<int?>("EmployeeId")
                         .IsRequired();
 
-                    b.Property<string>("HotelId")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("TrainId")
-                        .HasMaxLength(50);
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AirId");
+                    b.HasIndex("EmployeeId")
+                        .IsUnique();
 
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("TrainId");
-
-                    b.ToTable("Baskets");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("RESTFulExample.DAL.Entities.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("FirstName")
@@ -125,6 +112,27 @@ namespace RESTFulExample.DAL.Migrations
                     b.ToTable("Hotels");
                 });
 
+            modelBuilder.Entity("RESTFulExample.DAL.Entities.Order", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CartId")
+                        .IsRequired();
+
+                    b.Property<string>("ServiceId")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<byte>("ServiceTipe");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("RESTFulExample.DAL.Entities.Train", b =>
                 {
                     b.Property<string>("Id")
@@ -158,41 +166,37 @@ namespace RESTFulExample.DAL.Migrations
             modelBuilder.Entity("RESTFulExample.DAL.Entities.Air", b =>
                 {
                     b.HasOne("RESTFulExample.DAL.Entities.Employee", "Traveller")
-                        .WithMany()
+                        .WithMany("Airs")
                         .HasForeignKey("TravellerId");
                 });
 
-            modelBuilder.Entity("RESTFulExample.DAL.Entities.Basket", b =>
+            modelBuilder.Entity("RESTFulExample.DAL.Entities.Cart", b =>
                 {
-                    b.HasOne("RESTFulExample.DAL.Entities.Air", "Air")
-                        .WithMany()
-                        .HasForeignKey("AirId");
-
                     b.HasOne("RESTFulExample.DAL.Entities.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
+                        .WithOne("Cart")
+                        .HasForeignKey("RESTFulExample.DAL.Entities.Cart", "EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RESTFulExample.DAL.Entities.Hotel", "Hotel")
-                        .WithMany()
-                        .HasForeignKey("HotelId");
-
-                    b.HasOne("RESTFulExample.DAL.Entities.Train", "Train")
-                        .WithMany()
-                        .HasForeignKey("TrainId");
                 });
 
             modelBuilder.Entity("RESTFulExample.DAL.Entities.Hotel", b =>
                 {
                     b.HasOne("RESTFulExample.DAL.Entities.Employee", "Traveller")
-                        .WithMany()
+                        .WithMany("Hotels")
                         .HasForeignKey("TravellerId");
+                });
+
+            modelBuilder.Entity("RESTFulExample.DAL.Entities.Order", b =>
+                {
+                    b.HasOne("RESTFulExample.DAL.Entities.Cart", "Cart")
+                        .WithMany("Orders")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("RESTFulExample.DAL.Entities.Train", b =>
                 {
                     b.HasOne("RESTFulExample.DAL.Entities.Employee", "Traveller")
-                        .WithMany()
+                        .WithMany("Trains")
                         .HasForeignKey("TravellerId");
                 });
 #pragma warning restore 612, 618
