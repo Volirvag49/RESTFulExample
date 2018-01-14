@@ -14,11 +14,11 @@ namespace RESTFulExample.BLL.Services
 {
     public partial class CartService : ICartService
     {
-        IUnitOfWork unitOfWork { get; set; }
+        IUnitOfWork _unitOfWork { get; set; }
 
         public CartService(IUnitOfWork uow)
         {
-            this.unitOfWork = uow;
+            this._unitOfWork = uow;
         }
 
         public async Task<IEnumerable<OrderDTO>> FindByIdEmpAsync(int? employeeId)
@@ -28,9 +28,9 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется Клиент", "");
             }
 
-            Cart cart = await unitOfWork.Carts.GetByAsync(x => x.EmployeeId == employeeId);
+            Cart cart = await _unitOfWork.Carts.GetByAsync(x => x.EmployeeId == employeeId);
 
-            var orders = await unitOfWork.Orders.GetAsync(filter: q => q.CartId == cart.Id);
+            var orders = await _unitOfWork.Orders.GetAsync(filter: q => q.CartId == cart.Id);
 
             var ordersDTO = Mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(orders);
 
@@ -42,7 +42,7 @@ namespace RESTFulExample.BLL.Services
 
             await CheckEmp(services.EmployeeId);
 
-            Cart cart = await unitOfWork.Carts.GetByAsync(x => x.EmployeeId == services.EmployeeId);
+            Cart cart = await _unitOfWork.Carts.GetByAsync(x => x.EmployeeId == services.EmployeeId);
 
             foreach (var item in services.serviceIds)
             {
@@ -50,34 +50,34 @@ namespace RESTFulExample.BLL.Services
 
 
 
-                Air air = await unitOfWork.Airs.GetByIdAsynс(item);
+                Air air = await _unitOfWork.Airs.GetByIdAsynс(item);
                 air.TravellerId = services.EmployeeId;
 
                 Order newOrder = new Order() { CartId = cart.Id, ServiceId = item, ServiceTipe = ServiceTipe.Air };
-                unitOfWork.Orders.Create(newOrder);
+                _unitOfWork.Orders.Create(newOrder);
             }
 
-            await unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task AddTrainAsync(ServiceDTO services)
         {
             await CheckEmp(services.EmployeeId);
 
-            Cart cart = await unitOfWork.Carts.GetByAsync(x => x.EmployeeId == services.EmployeeId);
+            Cart cart = await _unitOfWork.Carts.GetByAsync(x => x.EmployeeId == services.EmployeeId);
 
             foreach (var item in services.serviceIds)
             {
                 await CheckTrain(item);
 
-                Train train = await unitOfWork.Trains.GetByIdAsynс(item);
+                Train train = await _unitOfWork.Trains.GetByIdAsynс(item);
                 train.TravellerId = services.EmployeeId;
 
                 Order newOrder = new Order() { CartId = cart.Id, ServiceId = item, ServiceTipe = ServiceTipe.Train };
-                unitOfWork.Orders.Create(newOrder);
+                _unitOfWork.Orders.Create(newOrder);
             }
 
-            await unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
         }
 
 
@@ -85,72 +85,113 @@ namespace RESTFulExample.BLL.Services
         {
             await CheckEmp(services.EmployeeId);
 
-            Cart cart = await unitOfWork.Carts.GetByAsync(x => x.EmployeeId == services.EmployeeId);
+            Cart cart = await _unitOfWork.Carts.GetByAsync(x => x.EmployeeId == services.EmployeeId);
 
             foreach (var item in services.serviceIds)
             {
                 await CheckHotel(item);
 
-                Hotel hotel = await unitOfWork.Hotels.GetByIdAsynс(item);
+                Hotel hotel = await _unitOfWork.Hotels.GetByIdAsynс(item);
                 hotel.TravellerId = services.EmployeeId;
 
                 Order newOrder = new Order() { CartId = cart.Id, ServiceId = item, ServiceTipe = ServiceTipe.Hotel };
-                unitOfWork.Orders.Create(newOrder);
+                _unitOfWork.Orders.Create(newOrder);
             }
 
-            await unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
         }
 
 
-        public async Task DeleteAsync(int? cartId)
+        public async Task DeleteAllAsync(int? cartId)
         {
             await CheckCart(cartId);
 
-            IEnumerable<Order> orders = await unitOfWork.Orders.GetAsync(x => x.CartId == cartId);
+            IEnumerable<Order> orders = await _unitOfWork.Orders.GetAsync(x => x.CartId == cartId);
 
             foreach (var item in orders)
             {
                 if (item.ServiceTipe == ServiceTipe.Air)
                 {
-                    Air air = await unitOfWork.Airs.GetByIdAsynс(item.ServiceId);
+                    Air air = await _unitOfWork.Airs.GetByIdAsynс(item.ServiceId);
 
                     air.TravellerId = null;
-                    unitOfWork.Airs.Update(air);
-                    unitOfWork.Orders.Delete(item);
+                    _unitOfWork.Airs.Update(air);
+                    _unitOfWork.Orders.Delete(item);
 
                 }
 
                 if (item.ServiceTipe == ServiceTipe.Train)
                 {
-                    Train train = await unitOfWork.Trains.GetByIdAsynс(item.ServiceId);
+                    Train train = await _unitOfWork.Trains.GetByIdAsynс(item.ServiceId);
 
                     train.TravellerId = null;
-                    unitOfWork.Trains.Update(train);
+                    _unitOfWork.Trains.Update(train);
 
-                    unitOfWork.Orders.Delete(item);
+                    _unitOfWork.Orders.Delete(item);
 
                 }
 
                 if (item.ServiceTipe == ServiceTipe.Hotel)
                 {
-                    Hotel hotel = await unitOfWork.Hotels.GetByIdAsynс(item.ServiceId);
+                    Hotel hotel = await _unitOfWork.Hotels.GetByIdAsynс(item.ServiceId);
 
                     hotel.TravellerId = null;
-                    unitOfWork.Hotels.Update(hotel);
+                    _unitOfWork.Hotels.Update(hotel);
 
-                    unitOfWork.Orders.Delete(item);
+                    _unitOfWork.Orders.Delete(item);
 
                 }
 
-                await unitOfWork.CommitAsync();
+                await _unitOfWork.CommitAsync();
 
             }
 
         }
 
+        public async Task DeleteAsync(string serviceId)
+        {
+
+            Order order = await _unitOfWork.Orders.GetByAsync(x => x.ServiceId == serviceId);
+
+            if (order.ServiceTipe == ServiceTipe.Air)
+            {
+                Air air = await _unitOfWork.Airs.GetByIdAsynс(order.ServiceId);
+
+                air.TravellerId = null;
+                _unitOfWork.Airs.Update(air);
+                _unitOfWork.Orders.Delete(order);
+
+            }
+
+            if (order.ServiceTipe == ServiceTipe.Train)
+            {
+                Train train = await _unitOfWork.Trains.GetByIdAsynс(order.ServiceId);
+
+                train.TravellerId = null;
+                _unitOfWork.Trains.Update(train);
+
+                _unitOfWork.Orders.Delete(order);
+
+            }
+
+            if (order.ServiceTipe == ServiceTipe.Hotel)
+            {
+                Hotel hotel = await _unitOfWork.Hotels.GetByIdAsynс(order.ServiceId);
+
+                hotel.TravellerId = null;
+                _unitOfWork.Hotels.Update(hotel);
+
+                _unitOfWork.Orders.Delete(order);
+
+            }
+
+            await _unitOfWork.CommitAsync();
+        
+        }
+      
         public void Dispose()
         {
-            unitOfWork.Dispose();
+            _unitOfWork.Dispose();
         }
     }
 }

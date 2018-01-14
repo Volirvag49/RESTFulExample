@@ -14,12 +14,12 @@ namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
     [ExceptionLoggerFilter]
-    public class CartsEmployeesController : Controller
+    public class CartsController : Controller
     {
         private readonly ICartService _cartService;
         private readonly IMapper _mapper;
 
-        public CartsEmployeesController(ICartService cartService, IMapper mapper)
+        public CartsController(ICartService cartService, IMapper mapper)
         {
             this._cartService = cartService;
             this._mapper = mapper;
@@ -41,14 +41,30 @@ namespace RESTFulExample.API.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{cart_id}")]
+        [HttpDelete]
+        [Route("api/[controller]/{cart_id:int}/ClearCart")]
         public async Task<IActionResult> Delete(int cart_id)
         {
-
             try
             {
-                await _cartService.DeleteAsync(cart_id);
+                await _cartService.DeleteAllAsync(cart_id);
                 return Ok(cart_id);
+            }
+            catch (BusinessLogicException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{service_Id}")]
+        public async Task<IActionResult> Delete(string service_Id)
+        {
+            try
+            {
+                await _cartService.DeleteAsync(service_Id);
+                return Ok(service_Id);
             }
             catch (BusinessLogicException ex)
             {

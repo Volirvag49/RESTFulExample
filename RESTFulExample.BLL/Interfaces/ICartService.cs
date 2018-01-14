@@ -12,6 +12,7 @@ namespace RESTFulExample.BLL.Interfaces
         Task AddAirAsync(ServiceDTO services);
         Task AddTrainAsync(ServiceDTO services);
         Task AddHotelAsync(ServiceDTO services);
-        Task DeleteAsync(int? CardId);
+        Task DeleteAsync(string serviceId);
+        Task DeleteAllAsync(int? cartId);
     }
 }

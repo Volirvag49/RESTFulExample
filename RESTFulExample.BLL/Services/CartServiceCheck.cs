@@ -13,7 +13,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется клиент", "");
             }
 
-            var empIsExist = await unitOfWork.Employees.IsExistAsync(where: q => q.Id == employeeId);
+            var empIsExist = await _unitOfWork.Employees.IsExistAsync(where: q => q.Id == employeeId);
 
             if (!empIsExist)
             {
@@ -28,7 +28,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            var airIsExist = await unitOfWork.Airs.IsExistAsync(where: q => q.Id == airId && q.TravellerId == null);
+            var airIsExist = await _unitOfWork.Airs.IsExistAsync(where: q => q.Id == airId && q.TravellerId == null);
 
             if (!airIsExist)
             {
@@ -44,7 +44,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            var trainIsExist = await unitOfWork.Trains.IsExistAsync(where: q => q.Id == trainId && q.TravellerId == null);
+            var trainIsExist = await _unitOfWork.Trains.IsExistAsync(where: q => q.Id == trainId && q.TravellerId == null);
 
             if (!trainIsExist)
             {
@@ -59,7 +59,7 @@ namespace RESTFulExample.BLL.Services
                 throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            var hotelIsExist = await unitOfWork.Hotels.IsExistAsync(where: q => q.Id == hotelId && q.TravellerId == null);
+            var hotelIsExist = await _unitOfWork.Hotels.IsExistAsync(where: q => q.Id == hotelId && q.TravellerId == null);
 
             if (!hotelIsExist)
             {
@@ -67,19 +67,20 @@ namespace RESTFulExample.BLL.Services
             }
         }
 
-        private async Task CheckCart(int? basketId)
+        private async Task CheckCart(int? cartId)
         {
-            if (basketId == null)
+            if (cartId == null)
             {
                 throw new BusinessLogicException("Требуется услуга", "");
             }
 
-            var basketIsExist = await unitOfWork.Carts.IsExistAsync(where: q => q.Id == basketId);
+            var basketIsExist = await _unitOfWork.Carts.IsExistAsync(where: q => q.Id == cartId);
 
             if (!basketIsExist)
             {
                 throw new BusinessLogicException("Услуга не найдена", "");
             }
         }
+     
     }
 }

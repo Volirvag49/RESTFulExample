@@ -8,6 +8,7 @@ using RESTFulExample.BLL.Interfaces;
 using AutoMapper;
 using Microsoft.Extensions.Options;
 using RESTFulExample.DAL.Mongo;
+using RESTFulExample.BLL.Infrastructure;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,7 +16,7 @@ namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
     [ExceptionLoggerFilter]
-    public class TestErrorsLoggerController : Controller
+    public class LoggerTestController : Controller
     {
 
         // GET: api/values
@@ -23,9 +24,8 @@ namespace RESTFulExample.API.Controllers
         public IEnumerable<string> Get()
         {
 
-            int x = 0;
-            int y = 7 / x;
-            return new string[] { "value1", "value2" };
+            throw new BusinessLogicException("Тестовое  исключение", "Тест");
+
         }
 
         
