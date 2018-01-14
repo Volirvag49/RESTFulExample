@@ -27,8 +27,13 @@ namespace RESTFulExample.API.Controllers
 
         // GET api/values/5
         [HttpGet("{employee_Id}")]
-        public async Task<IActionResult> Get(int employee_Id)
+        public async Task<IActionResult> Get(int? employee_Id)
         {
+            if (employee_Id == null)
+            {
+                return NotFound();
+            }
+
             var orderDTO = await _cartService.FindByIdEmpAsync(employee_Id);
             var ordersVM = Mapper.Map<IEnumerable<OrderDTO>, IEnumerable<OrderVM>>(orderDTO);
 
@@ -43,8 +48,13 @@ namespace RESTFulExample.API.Controllers
         // DELETE api/values/5
         [HttpDelete]
         [Route("{cart_id:int}")]
-        public async Task<IActionResult> Delete(int cart_id)
+        public async Task<IActionResult> Delete(int? cart_id)
         {
+            if (cart_id == null)
+            {
+                return NotFound();
+            }
+
             try
             {
                 await _cartService.DeleteAllAsync(cart_id);
@@ -61,6 +71,11 @@ namespace RESTFulExample.API.Controllers
         [HttpDelete("{service_Id}")]
         public async Task<IActionResult> Delete(string service_Id)
         {
+            if (service_Id == null)
+            {
+                return NotFound();
+            }
+
             try
             {
                 await _cartService.DeleteAsync(service_Id);

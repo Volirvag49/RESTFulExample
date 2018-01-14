@@ -68,24 +68,7 @@ namespace RESTFulExample.TEST.DLL
             Assert.AreNotEqual(0, newEmpList.Count());
             Assert.AreEqual(oldEmpCount + 1, employees.Count);
 
-        }
-
-        [TestMethod]
-        public async Task Employees_Update()
-        {
-            // Arrange         
-            Employee employee = db.Employees.Find(1);
-            EmployeeDTO employeeDTO = Mapper.Map<Employee, EmployeeDTO>(employee);
-            // Act
-            employee.FirstName = "updatedFName1";
-            employee.LastName = "updatedLName2";
-
-            employeeService.UpdateAsync(employeeDTO);
-
-            Employee employee2 = db.Employees.Find(2);
-            // Assert
-            Assert.AreNotEqual(employee2.FirstName, "updatedFName1");
-        }
+        }      
 
         [TestMethod]
         public async Task Employees_Delete()

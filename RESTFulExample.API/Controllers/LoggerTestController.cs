@@ -20,14 +20,10 @@ namespace RESTFulExample.API.Controllers
     {
 
         // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]string Message)
         {
-
-            throw new BusinessLogicException("Тестовое  исключение", "Тест");
-
-        }
-
-        
+            throw new BusinessLogicException("Тестовое  исключение: " + Message, "Тест");
+        }      
     }
 }
