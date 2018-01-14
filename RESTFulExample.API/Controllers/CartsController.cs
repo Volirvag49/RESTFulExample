@@ -42,7 +42,7 @@ namespace RESTFulExample.API.Controllers
 
         // DELETE api/values/5
         [HttpDelete]
-        [Route("api/[controller]/{cart_id:int}/ClearCart")]
+        [Route("{cart_id:int}")]
         public async Task<IActionResult> Delete(int cart_id)
         {
             try
