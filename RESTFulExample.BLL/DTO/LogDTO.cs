@@ -4,9 +4,8 @@ namespace RESTFulExample.BLL.DTO
 {
     public class LogDTO
     {
-        public int Id { get; set; }
-        public DateTime event_date { get; set; }
-        public string exception { get; set; }
-        public string method_name { get; set; }
+        public DateTime Event_date { get; set; }
+        public string Exception { get; set; }
+        public string Method_name { get; set; }
     }
 }

@@ -9,11 +9,12 @@ using RESTFulExample.BLL.DTO;
 using RESTFulExample.API.Models;
 using System.Collections;
 using RESTFulExample.BLL.Infrastructure;
-
+using RESTFulExample.API.Util;
 
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
+    [ExceptionLoggerFilter]
     public class AirsController : Controller
     {
         private readonly IAirService _airService;

@@ -1,11 +1,14 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace RESTFulExample.DAL.Entities
 {
-    public class Log : BaseEntity
+    public class Log 
     {
-        public DateTime event_date { get; set; }
-        public string exception { get; set; }
-        public string method_name { get; set; }
+        public ObjectId Id { get; set; }
+        public DateTime Event_date { get; set; }
+        public string Exception { get; set; }
+        public string Method_name { get; set; }
     }
 }

@@ -9,23 +9,21 @@ using RESTFulExample.BLL.DTO;
 using RESTFulExample.API.Models;
 using System.Collections;
 using RESTFulExample.BLL.Infrastructure;
+using RESTFulExample.DAL.Mongo;
 using RESTFulExample.API.Util;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
     [ExceptionLoggerFilter]
-    public class AirsAvailableController : Controller
+    public class LoggerController : Controller
     {
-
-        private readonly IAirService _airService;
+        private readonly ILogService _logService;
         private readonly IMapper _mapper;
 
-        public AirsAvailableController(IAirService airService, IMapper mapper)
+        public LoggerController(ILogService logService, IMapper mapper )
         {
-            this._airService = airService;
+            this._logService = logService;
             this._mapper = mapper;
         }
 
@@ -33,9 +31,20 @@ namespace RESTFulExample.API.Controllers
         [HttpGet]
         public async Task<IEnumerable> Get()
         {
-            var airsDTO = await _airService.GetAvailableAsync();
-            var airsVM = Mapper.Map<IEnumerable<AirDTO>, IEnumerable<AirVM>>(airsDTO);
-            return airsVM;
+            var logDTO = await _logService.GetAllLogsAsync();
+            return logDTO;
         }
+
+        // GET api/values/5
+        // DELETE api/values/5
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
+        {
+             await _logService.RemoveAllLogs();
+
+            return Ok();
+        }
+
+
     }
 }

@@ -36,6 +36,9 @@ namespace RESTFulExample.API.Util
             CreateMap<OrderDTO, Order>();
             CreateMap<OrderVM, OrderDTO>();
             CreateMap<OrderDTO, OrderVM>();
+
+            CreateMap<Log, LogDTO>();
+            CreateMap<LogDTO, Log>();
         }
     }
 }

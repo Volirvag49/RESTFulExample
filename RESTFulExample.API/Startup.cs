@@ -16,6 +16,7 @@ using RESTFulExample.BLL.Services;
 using RESTFulExample.DAL.Interfaces;
 using RESTFulExample.DAL.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
+using RESTFulExample.DAL.Mongo;
 
 namespace RESTFulExample.API
 {
@@ -33,6 +34,13 @@ namespace RESTFulExample.API
         {
             services.AddDbContext<ApplicationDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
+            services.Configure<LogSettings>(options =>
+            {
+                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+            });
 
             services.AddMvc();
 
@@ -58,6 +66,10 @@ namespace RESTFulExample.API
             services.AddTransient<ITrainService, TrainService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<ICartService, CartService>();
+
+
+            services.AddTransient<ILogRepository, LogRepository>();
+            services.AddTransient<ILogService, LogService>();
 
         }
 

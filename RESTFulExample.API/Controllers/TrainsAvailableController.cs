@@ -9,12 +9,14 @@ using RESTFulExample.BLL.DTO;
 using RESTFulExample.API.Models;
 using System.Collections;
 using RESTFulExample.BLL.Infrastructure;
+using RESTFulExample.API.Util;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
+    [ExceptionLoggerFilter]
     public class TrainsAvailableController : Controller
     {
         private readonly ITrainService _trainService;

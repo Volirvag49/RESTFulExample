@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulExample.API.Models;
+using RESTFulExample.API.Util;
 using RESTFulExample.BLL.DTO;
 using RESTFulExample.BLL.Infrastructure;
 using RESTFulExample.BLL.Interfaces;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 namespace RESTFulExample.API.Controllers
 {
     [Route("api/[controller]")]
+    [ExceptionLoggerFilter]
     public class HotelsController : Controller
     {
         private readonly IHotelService _hotelService;
